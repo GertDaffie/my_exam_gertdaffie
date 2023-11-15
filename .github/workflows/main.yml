@@ -7,14 +7,16 @@ name: CI
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+  workflow_dispatch:
 
   # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -51,7 +53,31 @@ jobs:
         with:
     # The cc-test-report subcommand (with flags/arguments) to execute
           subcommand: help
+
+
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v2.1.1
+        with:
+    # Artifact name
+          name: Output
+    # Destination path
+          path: C:\Users\unico\OneDrive\Documents\Software Development (2nd Year)\Semester 2\DOE522\Practical Exam
           
+
+
+      - name: Inclusiveness Analyzer
+        uses: microsoft/InclusivenessAnalyzer@v1.0.1
+        with:
+    # Fails the step if a non-inclusive term is found
+          failOnNonInclusiveTerm: false
+    # Only scan files added or modified in last commit when checkout step has "with: fetch-depth: 2" configured
+          excludeUnchangedFiles: true
+    # Comma separated list of file patterns to exclude from analysis
+          excludeFiles: # optional
+    # Comma separated list of non-inclusive terms to exclude from analysis
+          excludeTerms: # optional
+          
+
 
 
 
